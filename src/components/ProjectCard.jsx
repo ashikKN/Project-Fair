@@ -3,8 +3,8 @@ import { Card, Col, Modal, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 function ProjectCard() {
+    // state for modal
     const [show, setShow] = useState(false)
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   return (
@@ -33,10 +33,10 @@ function ProjectCard() {
             </Row>
             <div className="mt-3">
                 <Link to={'https://github.com/ashikKN/Project-Fair'} target='_blank' className='me-3 btn'><i class="fa-brands fa-github fa-2x"></i></Link>
-                <Link to={'https://github.com/ashikKN/Project-Fair'} target='_blank' className='me-3 btn'><i class="fa-solid fa-link fa-2x"></i></Link>
+                <Link to={'https://project-vista.vercel.app/'} target='_blank' className='me-3 btn'><i class="fa-solid fa-link fa-2x"></i></Link>
             </div>
         </Modal.Body>
-      </Modal>
+    </Modal>
     </>
   )
 }
