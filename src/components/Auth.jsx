@@ -1,9 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerAPI } from '../Services/allAPI'
 
 function Auth({ register }) {
+    const navigate = useNavigate()
+    const [userData,setUserData] =useState({
+        username:"",
+        email:"",
+        password:""
+    })
     const isRegisterForm = register ? true : false
+
+    const handleRegister = async (e)=>{
+        e.preventDefault()
+        const {username,email,password} = userData
+        if(!username || !email || !password){
+            alert('Please fill the form completely')
+        }else{
+           const result = await registerAPI(userData)
+           console.log(result);
+        //    if(result.status===200){
+        //     alert(`${result.data.username} has registered successfully`)
+        //     setUserData({
+        //      username:'',email:'',password:''
+        //     })
+        //     navigate('/login')
+        //    }else if(result.status==406){
+        //     result.response.data
+        //    }
+        }
+    }
     return (
         <div style={{ width: '100%', height: '100vh' }} className='d-flex justify-content-center align-items-center'>
             <div className='w-75 container'>
@@ -28,28 +55,27 @@ function Auth({ register }) {
                                     {
                                         isRegisterForm &&
                                         <Form.Group className="mb-2" controlId="formBasicName">
-                                            <Form.Control type="text" placeholder="Username" />
+                                            <Form.Control type="text" placeholder="Username" value={userData.username} onChange={(e)=>setUserData({...userData,username:e.target.value})} />
                                         </Form.Group>
                                     }
 
                                     <Form.Group className="mb-2" controlId="formBasicEmail">
-                                        <Form.Control type="email" placeholder="Enter Your Email Id" />
+                                        <Form.Control type="email" placeholder="Enter Your Email Id" value={userData.email} onChange={(e)=>setUserData({...userData,email:e.target.value})}/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-2" controlId="formBasicPassword">
-                                        <Form.Control type="password" placeholder="Enter Password" />
+                                        <Form.Control type="password" placeholder="Enter Password" value={userData.password} onChange={(e)=>setUserData({...userData,password:e.target.value})}/>
                                     </Form.Group>
                                     {
                                         isRegisterForm ?
                                             <div>
-                                                <button className="btn btn-light ">Register</button>
+                                                <button className="btn btn-light " onClick={handleRegister}>Register</button>
                                                 <p>Already have an Account?Click here to <Link to={'/login'}>Login</Link></p>
                                             </div> :
                                             <div>
                                                 <button className="btn btn-light mb-1">Login</button>
                                                 <p>New User?Click here to <Link to={'/register'}>Register</Link></p>
                                             </div>
-
                                     }
                                 </Form>
                             </div>

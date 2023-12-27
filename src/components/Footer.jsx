@@ -38,7 +38,7 @@ function Footer() {
                         <div className="d-flex mt-1">
                             <input className='form-control' placeholder='Enter your email' />
                             {/* <button style={{background:'#fc346f'}} className="btn btn-primary ms-3 w-50">Subscribe</button> */}
-                            <Button style={{ background: '#fc346f', border: 'none' }} className='btn ms-3 w-50'>SUBSCRIBE</Button>
+                            <Button style={{  border: 'none' }} className='btn btn-primary border ms-3 w-50'>SUBSCRIBE</Button>
                         </div>
 
                         <div className="icons mt-3 d-flex justify-content-between fs-3">
