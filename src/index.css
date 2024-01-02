@@ -5,7 +5,9 @@
   overflow-x: hidden;
   
   font-family: 'Kalnia', serif;
+ 
 }
+
 ::-webkit-scrollbar{
  
     display: none;

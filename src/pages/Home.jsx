@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import ProjectCard from '../components/ProjectCard'
 import { Link } from 'react-router-dom'
 
 
 function Home() {
+    const [loggedin,setLoggedin] = useState(false)
+    useEffect(()=>{
+        if(sessionStorage.getItem("token")){
+                setLoggedin(true)
+        }else{
+            setLoggedin(false)
+        }
+    },{})
     return (
         <>
             {/* Landing  */}
@@ -13,7 +21,11 @@ function Home() {
                     <Col sm={12} md={6}>
                         <h1><i className="fa-solid fa-laptop-code me-2"></i>Project Vista</h1>
                         <h6 style={{ textAlign: "justify" }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quis, debitis qui natus consequatur animi libero voluptate molestias, autem invent Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, ducimus! Veniam, consectetur! Nisi enim rerum perferendis alias similique tenetur ipsum ipsam accusantium ab cumque voluptatibus suscipit, distinctio excepturi. Voluptates, modi!</h6>
-                        <Link to={'/login'} style={{backgroundColor:'#e83283',color:'#fff'}} className='btn w-25 mt-2'>Explore More</Link>
+                       { loggedin?
+                       <Link to={'/dashboard'} style={{backgroundColor:'#e83283',color:'#fff'}} className='btn  mt-2'>Manage Your Projects</Link> :
+
+                        <Link to={'/login'} style={{backgroundColor:'#e83283',color:'#fff'}} className='btn mt-2'>Start to Explore</Link>
+                       }
                     </Col>
 
                     <Col sm={12} md={6}>
@@ -23,7 +35,7 @@ function Home() {
             </div>
 
             {/* Projects */}
-            <div className="projects mt-3">
+            <div  className="projects ">
                 <h1 className='text-center mb-3'>Explore Our Projects</h1>
                 <marquee scrollAmount={30}>
                     <Row>
