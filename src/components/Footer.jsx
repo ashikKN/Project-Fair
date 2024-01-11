@@ -8,7 +8,7 @@ function Footer() {
            
             <div className='d-flex flex-column justify-content-center align-items-center bg-primary' style={{ width: '100%', height: '300px' }}>
 
-                <div className="footer-content d-flex justify-content-evenly w-100 flex-wrap">
+                <div className="footer-content d-flex justify-content-evenly w-100 flex-wrap ">
 
                     <div style={{ width: "400px" }} className="website ">
                         <h4><i class="fa-solid fa-laptop-code me-2"></i>Project Vista</h4>
@@ -34,7 +34,7 @@ function Footer() {
                     </div>
                     <div className="guides d-flex flex-column" >
 
-                        <h4>Contact Us</h4>
+                        <h4>Subscribe to our newsletter</h4>
                         <div className="d-flex mt-1">
                             <input className='form-control' placeholder='Enter your email' />
                             {/* <button style={{background:'#fc346f'}} className="btn btn-primary ms-3 w-50">Subscribe</button> */}

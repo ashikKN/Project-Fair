@@ -2,17 +2,32 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import ProjectCard from '../components/ProjectCard'
 import { Link } from 'react-router-dom'
+import { homeprojectAPI } from '../Services/allAPI'
 
 
 function Home() {
     const [loggedin,setLoggedin] = useState(false)
+    const [homeProjects,setHomeProjects] = useState([])
+    const getHomeProjects = async()=>{
+        const result = await homeprojectAPI()
+        if(result.status===200){
+            setHomeProjects(result.data)
+        }else{
+            console.log(result);
+            console.log(result.response.data);
+        }
+    }
+    // console.log(homeProjects);
     useEffect(()=>{
         if(sessionStorage.getItem("token")){
                 setLoggedin(true)
         }else{
             setLoggedin(false)
         }
+        // api call for home page projects
+        getHomeProjects()
     },{})
+
     return (
         <>
             {/* Landing  */}
@@ -35,17 +50,19 @@ function Home() {
             </div>
 
             {/* Projects */}
-            <div  className="projects ">
-                <h1 className='text-center mb-3'>Explore Our Projects</h1>
-                <marquee scrollAmount={30}>
-                    <Row>
-                            <Col sm={12} md={6} lg={4}>
-                                {/* component for displaying project */}
-                                <ProjectCard/>
-                            </Col>
-                    </Row>
+            <div style={{backgroundColor:'#fff'}} className="projects ">
+                <h1 style={{color:'#e83283'}} className='text-center mb-5'>Explore Our Projects</h1>
+                <marquee scrollAmount={25}>
+                    <div  className="d-flex justify-content-between">
+                      { homeProjects?.length>0?homeProjects.map(project=>(
+                             <div style={{width:'500px'}}>
+                             <ProjectCard project={project}/>
+                            </div>
+                      )):null
+                      }
+                    </div>
                 </marquee>
-                <div className="text-center mt-3 mb-3"><Link to={'/projects'}>View More Projects</Link></div>
+                <div className="text-center mt-3 mb-3 fw-bolder"><Link to={'/projects'} style={{color:'#e83283'}}>View More Projects</Link></div>
             </div>
         </>
     )

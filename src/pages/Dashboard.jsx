@@ -13,13 +13,13 @@ function Dashboard() {
   },[])
   
   return (
-    <div>
+    <div style={{backgroundColor:'#fff'}}>
       
       {/* Passing a boolean prop named insideDashboard with a value of true  */}
       <Header insideDashboard/>
       <Row style={{marginTop:'100px'}} className='container-fluid '>
         <Col sm={12} md={8}>
-        <h2 className='text-light'>Welcome <span style={{color:'#e83283'}}>{userName}</span></h2>
+        <h2 className='text-primary'>Welcome <span className='text-uppercase' style={{color:'red'}}>{userName}</span></h2>
         {/* my projects */}
         <MyProjects/>
         </Col>

@@ -60,10 +60,13 @@ function AddProject() {
                 }
                 const result = await addProjectAPI(reqBody,reqHeader)
                 if(result.status===200){
-                console.log(result.data);
+                // console.log(result.data);
+                handleClose()
+                alert("project added")
+                
                 }else{
-                console.log(result.response.data);
-                console.log(result);
+                toast.warning(result.response.data);
+                // console.log(result);
             }
             }
         }
@@ -103,6 +106,11 @@ function AddProject() {
                         <input type="text" className="form-control mt-2" placeholder='Project Overview' value={projectDetails.overview} onChange={e=>setProjectDetails({...projectDetails,overview:e.target.value})}/>
                      </div>
                    </div>
+                   <ToastContainer 
+                   position="top-right"
+                   autoClose={2000}
+                   theme='colored'
+                   />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -111,10 +119,6 @@ function AddProject() {
                     <Button variant="primary" onClick={handleAdd}>Add</Button>
                 </Modal.Footer>
             </Modal>
-            <ToastContainer 
-            position="top-right"
-            autoClose={2000}
-            theme='colored' />
         </>
     )
 }
