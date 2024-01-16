@@ -1,8 +1,13 @@
-import React, {useState, useEffect } from 'react'
+import React, {useState, useEffect, useContext } from 'react'
 import AddProject from './AddProject'
 import { userProjectAPI } from '../Services/allAPI'
+import { addProjectResponseContext } from '../Contexts/ContextShare'
+import { Alert } from 'react-bootstrap'
+import EditProject from './EditProject'
+
 
 function MyProjects() {
+  const {addProjectResponse,setAddProjectResponse} = useContext(addProjectResponseContext)
   const [userProjects,setUserProjects] = useState([])
 
   const getUserProjects = async()=>{
@@ -23,8 +28,8 @@ function MyProjects() {
 
   useEffect(()=>{
     getUserProjects()
-  },[])
-  console.log(userProjects);
+  },[addProjectResponse])
+  // console.log(userProjects);
 
   return (
     <div className='card p-3 shadow mb-3 '>
@@ -32,18 +37,20 @@ function MyProjects() {
            <h2 style={{color:'#e83283'}}>My Projects</h2>
            <AddProject/>
        </div>
-
+      {
+        addProjectResponse.title?<Alert dismissible className='fw-bolder text-danger'>{addProjectResponse.title}</Alert>:null
+      }
        
        {
        userProjects?.length>0?userProjects?.map(project=>(
-        <div className="mt-4 text-primary">
+        <div className="mt-3 text-primary">
 
         {/* collection of user projects */}
           <div className="border d-flex align-items-center rounded p-2 border-primary">
 
           <h5>{project.title}</h5>
           <div className="icons ms-auto">
-            <button className="btn text-primary"><i className='fa-solid fa-pen-to-square fs-5'></i></button>
+            <EditProject project={project}/>
             <a href={project.github} target="_blank" className="btn text-primary"><i className='fa-brands fa-github fs-5'></i></a>
             <button className="btn text-primary"><i className='fa-solid fa-trash fs-5'></i></button>
           </div>

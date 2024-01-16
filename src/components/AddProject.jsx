@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Modal, Row } from 'react-bootstrap'
+import React, { useEffect, useState ,useContext } from 'react'
+import { Button, Modal} from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addProjectAPI } from '../Services/allAPI';
+import { addProjectResponseContext } from '../Contexts/ContextShare';
 
 
 function AddProject() {
+    const {addProjectResponse,setAddProjectResponse} = useContext(addProjectResponseContext)
     const [show, setShow] = useState(false)
     const [projectDetails,setProjectDetails] = useState({
         title:"",languages:"",overview:"",github:"",website:"",projectImage:""
     })
     // state to store url of image converted from file uploaded
     const [preview,setPreview] = useState("")
+
     // state to store token 
     const [token,setToken] = useState("")
 
@@ -21,7 +24,7 @@ function AddProject() {
         }else{
             setPreview("")
         }
-    },[projectDetails.projectImage])
+    },[])
     
     useEffect(()=>{
         if(sessionStorage.getItem('token')){
@@ -37,6 +40,8 @@ function AddProject() {
             title:"",languages:"",overview:"",github:"",website:"",projectImage:""
         })
     }
+    const handleShow = () => setShow(true);
+
 
     // handle add
     const handleAdd = async (e)=>{
@@ -62,7 +67,7 @@ function AddProject() {
                 if(result.status===200){
                 // console.log(result.data);
                 handleClose()
-                alert("project added")
+                setAddProjectResponse(result.data)
                 
                 }else{
                 toast.warning(result.response.data);
@@ -72,7 +77,6 @@ function AddProject() {
         }
     }
 
-    const handleShow = () => setShow(true);
     return (
         <>
             <Button variant="primary" onClick={handleShow}>Add Project</Button>
