@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginAPI, registerAPI } from '../Services/allAPI'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { tokenAuthorizationContext } from '../Contexts/TokenAuth';
 
 function Auth({ register }) {
+    const {isAuthorized,setIsAuthorized} = useContext(tokenAuthorizationContext)
     const navigate = useNavigate()
     const [userData, setUserData] = useState({
         username: "",
@@ -44,6 +46,7 @@ function Auth({ register }) {
             if(result.status===200){
                 sessionStorage.setItem("existingUser",JSON.stringify(result.data.existingUser))
                 sessionStorage.setItem("token",result.data.token)
+                setIsAuthorized(true)
                 setUserData({
                     email:"",
                     password:""
@@ -55,6 +58,7 @@ function Auth({ register }) {
             }
         }
     }
+
     return (
         <div style={{ width: '100%', height: '100vh' }} className='d-flex justify-content-center align-items-center'>
             <div className='w-75 container'>

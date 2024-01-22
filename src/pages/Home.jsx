@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import ProjectCard from '../components/ProjectCard'
 import { Link } from 'react-router-dom'
@@ -8,6 +8,7 @@ import { homeprojectAPI } from '../Services/allAPI'
 function Home() {
     const [loggedin,setLoggedin] = useState(false)
     const [homeProjects,setHomeProjects] = useState([])
+
     const getHomeProjects = async()=>{
         const result = await homeprojectAPI()
         if(result.status===200){
@@ -18,9 +19,10 @@ function Home() {
         }
     }
     // console.log(homeProjects);
+    
     useEffect(()=>{
         if(sessionStorage.getItem("token")){
-                setLoggedin(true)
+            setLoggedin(true)
         }else{
             setLoggedin(false)
         }

@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { BASE_URL } from '../Services/baseurl';
 import { ToastContainer, toast } from 'react-toastify';
+import { editProjectAPI } from '../Services/allAPI';
+import { editProjectResponseContext } from '../Contexts/ContextShare';
 
 function EditProject({ project }) {
+    // context
+    const {editProjectResponse,setEditProjectResponse} = useContext(editProjectResponseContext)
+    
     // TO STORE THE EDITED VALUES 
     const [projectDetails, setProjectDetails] = useState({
         id: project._id, title: project.title, languages: project.languages, overview: project.overview, github: project.github, website: project.website, projectImage: ""
@@ -13,7 +18,7 @@ function EditProject({ project }) {
     const [preview, setPreview] = useState("")
 
     const [show, setShow] = useState(false)
-    console.log(projectDetails);
+    // console.log(projectDetails);
     const handleClose = () => {
         setShow(false);
         setProjectDetails({
@@ -33,7 +38,46 @@ function EditProject({ project }) {
         if (!title || !languages || !overview || !github || !website) {
             toast.info("Please fill the form completely !!!")
         } else {
-
+            const reqBody = new FormData()
+            reqBody.append("title", title)
+            reqBody.append("languages", languages)
+            reqBody.append("overview", overview)
+            reqBody.append("github", github)
+            reqBody.append("website", website)
+            preview ? reqBody.append("projectImage", projectImage) : reqBody.append("projectImage", project.projectImage)
+            const token = sessionStorage.getItem("token")
+            if(preview) {
+                const reqHeader = {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${token}`
+                }
+                // api call
+                const result = await editProjectAPI(id,reqBody,reqHeader)
+                if(result.status===200){
+                    handleClose()
+                    // pass response to component MyProjects using contextAPI
+                    setEditProjectResponse(result.data)
+                }else{
+                    console.log(result);
+                    toast.error(result.response.data)
+                }
+            } else {
+                const reqHeader =
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+                // api call
+                const result = await editProjectAPI(id,reqBody,reqHeader)
+                if(result.status===200){
+                    handleClose()
+                    // pass response to component MyProjects using contextAPI
+                    setEditProjectResponse(result.data)
+                }else{
+                    console.log(result);
+                    toast.error(result.response.data)
+                } 
+            }
         }
     }
     return (
