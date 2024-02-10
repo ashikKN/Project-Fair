@@ -76,6 +76,7 @@ function MyProfile() {
              
         }
     }
+   
     return (
         <div>
             <div className='card p-3 shadow mb-3 mt-4'>
